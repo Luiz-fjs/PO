@@ -1,0 +1,19 @@
+# Executa uma instância direto no AMPL (IDE ou linha de comando).
+# Uso, a partir da pasta ampl/:   ampl cvrp.run
+# Troque o arquivo .dat abaixo para mudar a instância.
+
+reset;
+model cvrp.mod;
+data ../data/dat/A-n32-k5.dat;
+
+option solver gurobi;
+# 1 thread, 3600 s, gap absoluto < 1 (custos inteiros) prova a otimalidade
+option gurobi_options 'outlev=1 timelim=3600 threads=1 mip:gap=0 mip:gapabs=0.999 mip:bestbound=1 mip:return_gap=3';
+
+solve;
+
+display solve_result, TotalDistance, TotalDistance.bestbound, _solve_elapsed_time;
+display _nvars, _ncons;
+
+# arcos usados na solução (rotas)
+display {(i, j) in A: x[i, j] > 0.5};

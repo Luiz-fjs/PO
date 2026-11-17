@@ -1,0 +1,19 @@
+**Uma análise comparativa entre método exato e Simulated Annealing para o Problema
+
+de Roteamento de Veículos Capacitados
+
+O planejamento eficiente de rotas de distribuição constitui um importante problema de
+otimização presente em diferentes contextos logísticos: empresas responsáveis pela
+distribuição de mercadorias precisam determinar quais clientes serão atendidos por cada
+veículo e em qual sequência as visitas deverão ocorrer, considerando limitações operacionais,
+como a capacidade de transporte dos veículos. Uma escolha inadequada das rotas pode
+provocar aumento da distância percorrida, maior consumo de recursos e maior custo
+operacional.
+Neste trabalho será estudado o Problema de Roteamento de Veículos Capacitados
+(Capacitated Vehicle Routing Problem - CVRP), que tem como objetivo a determinação do
+conjunto de rotas que minimize a distância total percorrida pela frota. A questão é baseada
+em um conjunto de clientes com demandas conhecidas e um depósito central, de onde parte
+uma frota homogênea de veículos com capacidade limitada. Cada cliente deve ser atendido
+exatamente uma vez por um dos veículos e todas as rotas devem iniciar e terminar no
+depósito, o qual a soma das demandas dos clientes pertencentes a uma mesma rota não pode
+ultrapassar a capacidade do veículo.

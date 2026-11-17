@@ -1,0 +1,19 @@
+{
+ "backend": "highspy",
+ "status": "Time limit reached",
+ "message": "Time limit reached",
+ "ub": null,
+ "lb": 0.0,
+ "time": 3907.492757000029,
+ "wall": 2386.773381125,
+ "n_vars": 502503,
+ "n_cons": 503507,
+ "routes": null,
+ "instance": "X-n502-k39",
+ "tier": "Muito grande",
+ "n": 501,
+ "bks": 69226,
+ "bks_is_optimal": false,
+ "time_limit": 3600.0,
+ "threads": 1
+}

@@ -1,0 +1,9 @@
+modelo | instância | ótimo | LP | gap LP (%) | UB 120s | LB 120s | status | tempo (s) | vars | cons
+cvrp_mtz.mod | E-n13-k4 | 247 | 226.0 | 8.5 | 247 | 247.0 | solved | 0.6 | 168 | 158
+cvrp.mod | E-n13-k4 | 247 | 238.3 | 3.5 | 247 | 247.0 | solved | 0.6 | 300 | 326
+cvrp_mtz.mod | E-n22-k4 | 375 | 308.5 | 17.7 | 375 | 348.0 | limit | 120.0 | 483 | 464
+cvrp.mod | E-n22-k4 | 375 | 330.6 | 11.8 | 375 | 375.0 | solved | 5.0 | 903 | 947
+cvrp_mtz.mod | E-n23-k3 | 569 | 515.0 | 9.5 | 569 | 569.0 | solved | 19.9 | 518 | 498
+cvrp.mod | E-n23-k3 | 569 | 489.8 | 13.9 | 569 | 569.0 | solved | 1.0 | 970 | 1016
+cvrp_mtz.mod | E-n30-k3 | 534 | 347.0 | 35.0 | 601 | 363.0 | limit | 120.0 | 897 | 870
+cvrp.mod | E-n30-k3 | 534 | 433.6 | 18.8 | 555 | 470.0 | limit | 120.0 | 1707 | 1767
