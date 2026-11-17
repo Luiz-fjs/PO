@@ -4,8 +4,8 @@
  "message": "Gurobi 13.0.3: optimal solution; objective 247\n3436 simplex iterations\n165 branching nodes\n",
  "ub": 247,
  "lb": 247,
- "time": 0.24210299999999998,
- "wall": 0.27840425,
+ "time": 0.349824,
+ "wall": 0.40474320799999997,
  "n_vars": 300,
  "n_cons": 326,
  "routes": [
@@ -35,7 +35,7 @@
  "n": 12,
  "bks": 247,
  "bks_is_optimal": true,
- "time_limit": 300.0,
+ "time_limit": 3600.0,
  "threads": 1,
  "n_routes": 4
 }

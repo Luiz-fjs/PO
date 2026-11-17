@@ -20,7 +20,7 @@ def status_pt(r: dict) -> str:
     if r["ub"] is not None and r["lb"] is not None and r["ub"] - r["lb"] < 1 - 1e-6:
         return "Ótimo"
     if r["ub"] is not None:
-        return "Viável (limite de tempo)"
+        return "Limite de tempo"
     if "memory" in str(r.get("message", "")).lower():
         return "Sem solução (memória)"
     return "Sem solução viável"
@@ -35,7 +35,8 @@ def main() -> None:
         r = json.loads(p.read_text())
         ub, lb, bks = r["ub"], r["lb"], r["bks"]
         lb = None if lb is None else max(0.0, lb)
-        gap = (ub - lb) / ub * 100 if ub is not None and lb is not None else None
+        # LB = 0 significa que o solver não obteve limitante útil: gap não informado
+        gap = (ub - lb) / ub * 100 if ub is not None and lb else None
         dev = (ub - bks) / bks * 100 if ub is not None else None
         rows.append(dict(
             faixa=info.tier, instancia=info.name, n=r["n"], bks=bks,

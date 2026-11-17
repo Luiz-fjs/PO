@@ -1,0 +1,62 @@
+{
+ "backend": "ampl+gurobi",
+ "status": "solved",
+ "message": "Gurobi 13.0.3: optimal solution; objective 784\n9.5451e+06 simplex iterations\n111596 branching nodes\n",
+ "ub": 784,
+ "lb": 784,
+ "time": 770.298359,
+ "wall": 771.727214208,
+ "n_vars": 1953,
+ "n_cons": 2017,
+ "routes": [
+  [
+   6,
+   2,
+   3,
+   23,
+   4,
+   11,
+   28,
+   14
+  ],
+  [
+   21,
+   31,
+   19,
+   17,
+   13,
+   7,
+   26
+  ],
+  [
+   24,
+   27
+  ],
+  [
+   29,
+   18,
+   8,
+   9,
+   22,
+   15,
+   10,
+   25,
+   5,
+   20
+  ],
+  [
+   30,
+   16,
+   1,
+   12
+  ]
+ ],
+ "instance": "A-n32-k5",
+ "tier": "M\u00e9dia",
+ "n": 31,
+ "bks": 784,
+ "bks_is_optimal": true,
+ "time_limit": 3600.0,
+ "threads": 1,
+ "n_routes": 5
+}

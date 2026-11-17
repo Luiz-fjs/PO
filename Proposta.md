@@ -4,7 +4,7 @@
 
 O CVRP será resolvido por duas abordagens, aplicadas às mesmas instâncias e no mesmo computador:
 
-1. **Método exato**: modelo de Programação Linear Inteira Mista (PLIM) escrito em AMPL e resolvido pelo HiGHS via *branch-and-cut*, com limite de tempo. Ele retorna a solução ótima ou, quando o tempo acaba, a melhor solução viável (limitante superior, UB) e o melhor limitante inferior (LB), o que permite calcular o **gap de otimalidade**.
+1. **Método exato**: modelo de Programação Linear Inteira Mista (PLIM) escrito em AMPL e resolvido pelo Gurobi via *branch-and-cut*, com limite de tempo. Ele retorna a solução ótima ou, quando o tempo acaba, a melhor solução viável (limitante superior, UB) e o melhor limitante inferior (LB), o que permite calcular o **gap de otimalidade**.
 2. **Metaheurística**: *Simulated Annealing* (SA) com vizinhanças múltiplas, penalização de capacidade, listas granulares de vizinhos e reaquecimento. O SA é avaliado pelo **desvio em relação ao ótimo ou BKS** publicado no CVRPLIB.
 
 A hipótese do trabalho, vinda da revisão bibliográfica, é a seguinte: o método exato prova a otimalidade nas instâncias pequenas, mas perde rapidamente a capacidade de fechar o gap (e até de encontrar soluções viáveis) à medida que *n* cresce. Já o SA mantém desvios baixos em tempo controlado em todas as faixas.
@@ -105,14 +105,14 @@ Também foi implementada a formulação clássica com restrições MTZ de carga 
 | E-n23-k3 | 569 | 515,0 (9,5%) | 489,8 (13,9%) | 19,9 s | **1,0 s** |
 | E-n30-k3 | 534 | 347,0 (35,0%) | 433,6 (18,8%) | > 120 s (UB 601, LB 363) | > 120 s (UB 555, LB 470) |
 
-A formulação de fluxo tem relaxação linear mais forte em 3 das 4 instâncias e resolve bem mais rápido, ao custo de cerca de 2× mais variáveis. Por isso ela é o modelo principal (`ampl/cvrp.mod`).
+Essa comparação foi feita com o HiGHS, antes da licença acadêmica. A formulação de fluxo tem relaxação linear mais forte em 3 das 4 instâncias e resolve bem mais rápido, ao custo de cerca de 2× mais variáveis. Por isso ela é o modelo principal (`ampl/cvrp.mod`).
 
 ### 3.4 Implementação e configuração
 
 | Item | Configuração |
 |---|---|
-| Linguagem de modelagem | AMPL (versão 20261109, via `amplpy` 0.18.1) |
-| Solver | HiGHS 1.15 (*branch-and-cut*), licença MIT |
+| Linguagem de modelagem | AMPL (versão 20261109, via `amplpy` 0.18.1), licença AMPL for Academics |
+| Solver | Gurobi 13.0.3 (*branch-and-cut*), licença AMPL for Academics |
 | Limite de tempo | 3600 s por instância |
 | Critério de otimalidade | UB − LB < 1 (custos inteiros), ou seja, `mip:gapabs=0.999` |
 | Threads | 1 por instância; 4 instâncias em paralelo |
@@ -212,7 +212,41 @@ retorna s*
 
 ## 5. Resultados do método exato
 
-<!-- RESULTS_TABLE -->
+Configuração: AMPL 20261109 + Gurobi 13.0.3, modelo `ampl/cvrp.mod`, limite de 3600 s por instância, 1 thread, 4 instâncias em paralelo num Apple M2 com 8 GB de RAM. Dados brutos em `results/exact/*.json` e `results/exact_results.csv`.
+
+**Tabela 1 – Resultados do método exato por instância**
+
+| Faixa | Instância | n | Ótimo/BKS | Solução (UB) | Limite inferior (LB) | Gap (%) | Desvio BKS (%) | Tempo (s) | Status | Variáveis | Restrições |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Pequena | E-n13-k4 | 12 | 247 | 247 | 247 | 0,00 | 0,00 | 0,3 | Ótimo | 300 | 326 |
+| Pequena | E-n22-k4 | 21 | 375 | 375 | 375 | 0,00 | 0,00 | 4,9 | Ótimo | 903 | 947 |
+| Pequena | E-n23-k3 | 22 | 569 | 569 | 569 | 0,00 | 0,00 | 0,5 | Ótimo | 970 | 1.016 |
+| Pequena | E-n30-k3 | 29 | 534 | 534 | 534 | 0,00 | 0,00 | 1.089,8 | Ótimo | 1.707 | 1.767 |
+| Média | A-n32-k5 | 31 | 784 | 784 | 784 | 0,00 | 0,00 | 770,3 | Ótimo | 1.953 | 2.017 |
+| Média | A-n45-k6 | 44 | 944 | 985 | 902 | 8,43 | 4,34 | 3.600,6 | Limite de tempo | 3.916 | 4.006 |
+| Média | A-n60-k9 | 59 | 1.354 | 1.370 | 1.285 | 6,20 | 1,18 | 3.600,2 | Limite de tempo | 7.021 | 7.141 |
+| Média | A-n80-k10 | 79 | 1.763 | 1.801 | 1.689 | 6,22 | 2,16 | 3.600,2 | Limite de tempo | 12.561 | 12.721 |
+| Grande | X-n101-k25 | 100 | 27.591 | 27.996 | 26.276 | 6,14 | 1,47 | 3.600,2 | Limite de tempo | 20.100 | 20.302 |
+| Grande | X-n153-k22 | 152 | 21.220 | 22.486 | 19.625 | 12,72 | 5,97 | 3.600,5 | Limite de tempo | 44.940 | 45.246 |
+| Grande | X-n200-k36 | 199 | 58.578 | 61.434 | 57.079 | 7,09 | 4,88 | 3.600,7 | Limite de tempo | 79.401 | 79.801 |
+| Muito grande | X-n303-k21 | 302 | 21.736* | 23.706 | 20.148 | 15,01 | 9,06 | 3.601,0 | Limite de tempo | 182.710 | 183.316 |
+| Muito grande | X-n502-k39 | 501 | 69.226* | 73.902 | 67.071 | 9,24 | 6,75 | 3.645,3 | Limite de tempo | 502.503 | 503.507 |
+| Muito grande | X-n1001-k43 | 1000 | 72.332* | 1.374.831 | 0 | — | 1.800,72 | 3.611,5 | Limite de tempo | 2.001.000 | 2.003.002 |
+
+\* Melhor solução conhecida (BKS), sem otimalidade provada na literatura (CVRPLIB). Nas demais, o valor é o ótimo.
+Gap = (UB − LB)/UB. Desvio = (UB − Ótimo/BKS)/(Ótimo/BKS). No X-n1001-k43 o Gurobi não obteve limitante inferior útil (LB = 0) em 3600 s, por isso o gap não é informado.
+
+**Análise.**
+
+- **Pequenas:** o método exato prova a otimalidade em todas as instâncias. As de 12 a 22 clientes levam menos de 5 s, mas o E-n30-k3 já exige 1.090 s.
+- **Médias:** a otimalidade só é provada na A-n32-k5, em 770 s. Da A-n45-k6 em diante, todas param no limite de tempo, com gap entre 6,2% e 8,4% e solução de 1,2% a 4,3% acima do ótimo.
+- **Grandes (100 a 199 clientes):** sempre há solução viável, com desvio de 1,5% a 6,0% e gap de 6,1% a 12,7%.
+- **Muito grandes:**
+  - X-n303-k21 e X-n502-k39 terminam com desvio de 6,8% a 9,1% em relação ao BKS.
+  - No X-n1001-k43, o modelo tem cerca de 2 milhões de variáveis. O Gurobi não obtém limitante inferior em 1 hora, e a solução encontrada é cerca de 19 vezes o BKS.
+- **Comparação com o HiGHS:** numa rodada preliminar com o mesmo modelo e o mesmo limite de tempo (`results/highs_partial/`), o HiGHS não encontrou solução viável para X-n502-k39 e X-n1001-k43, e para X-n303-k21 parou em 218.766, cerca de 10 vezes o BKS.
+- **Conclusão:** os resultados confirmam a hipótese do trabalho. O método exato é adequado até cerca de 30 clientes e perde rapidamente a capacidade de provar o ótimo à medida que *n* cresce, o que abre espaço para o Simulated Annealing nas faixas maiores.
+
 
 ---
 
@@ -220,15 +254,15 @@ retorna s*
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install amplpy highspy numpy
-.venv/bin/python -m amplpy.modules install highs cbc
+.venv/bin/python -m amplpy.modules install highs gurobi
 .venv/bin/python src/make_dat.py              # gera data/dat/*.dat
-BACKEND=ampl TL=3600 ./run_all_exact.sh       # roda todas as instâncias
+BACKEND=ampl SOLVER=gurobi TL=3600 ./run_all_exact.sh   # roda todas as instâncias
 .venv/bin/python src/make_table.py            # gera results/tabela_exato.md e .csv
 ```
 
 Para rodar uma instância isolada no próprio AMPL, use `ampl/cvrp.run`.
 
-**Licença AMPL.** A licença demo instalada pelo `amplpy` limita o modelo a 2000 variáveis e 2000 restrições, o que só comporta o conjunto E. A licença **Community Edition** é gratuita e remove esse limite (<https://ampl.com/ce>). Depois de registrar a conta, ative-a com `.venv/bin/python -m amplpy.modules activate <UUID>`, sem colocar o UUID em arquivos do projeto.
+**Licença AMPL.** A licença demo instalada pelo `amplpy` limita o modelo a 2000 variáveis e 2000 restrições. Os resultados foram obtidos com a licença **AMPL for Academics**, gratuita para estudantes (<https://portal.ampl.com>), que remove o limite e libera o Gurobi. Essa licença é temporária (a atual expira em 16/12/2026). Para ativar, use `.venv/bin/python -m amplpy.modules activate <UUID>`, sem colocar o UUID em arquivos do projeto. Sem a licença, use `SOLVER=highs`.
 
 ---
 
@@ -238,6 +272,7 @@ Para rodar uma instância isolada no próprio AMPL, use `ampl/cvrp.run`.
 - Arnold, F., Gendreau, M., & Sörensen, K. (2019). Efficiently solving very large-scale routing problems. *Computers & Operations Research*, 107, 32–42. https://doi.org/10.1016/j.cor.2019.03.006
 - Clarke, G., & Wright, J. W. (1964). Scheduling of vehicles from a central depot to a number of delivery points. *Operations Research*, 12(4), 568–581. https://doi.org/10.1287/opre.12.4.568
 - Gavish, B., & Graves, S. C. (1978). The travelling salesman problem and related problems. Working Paper OR-078-78, Operations Research Center, MIT. http://hdl.handle.net/1721.1/5363
+- Gurobi Optimization, LLC. *Gurobi Optimizer Reference Manual*, versão 13.0. https://docs.gurobi.com
 - Huangfu, Q., & Hall, J. A. J. (2017). Parallelizing the dual revised simplex method. *Mathematical Programming Computation*, 10(1), 119–142. https://doi.org/10.1007/s12532-017-0130-5 (HiGHS)
 - Kara, I., Laporte, G., & Bektas, T. (2004). A note on the lifted Miller–Tucker–Zemlin subtour elimination constraints for the capacitated vehicle routing problem. *European Journal of Operational Research*, 158(3), 793–795. https://doi.org/10.1016/S0377-2217(03)00377-1
 - Kirkpatrick, S., Gelatt, C. D., & Vecchi, M. P. (1983). Optimization by simulated annealing. *Science*, 220(4598), 671–680. https://doi.org/10.1126/science.220.4598.671

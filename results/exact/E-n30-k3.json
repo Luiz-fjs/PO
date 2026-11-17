@@ -1,11 +1,11 @@
 {
  "backend": "ampl+gurobi",
- "status": "limit",
- "message": "Gurobi 13.0.3: time limit, feasible solution; objective 534\n6.66635e+06 simplex iterations\n117694 branching nodes\nabsmipgap=17, relmipgap=0.0318352\n",
+ "status": "solved",
+ "message": "Gurobi 13.0.3: optimal solution; objective 534\n1.96472e+07 simplex iterations\n435101 branching nodes\n",
  "ub": 534,
- "lb": 517,
- "time": 300.154737,
- "wall": 301.171773583,
+ "lb": 534,
+ "time": 1089.82203,
+ "wall": 1090.5476927920001,
  "n_vars": 1707,
  "n_cons": 1767,
  "routes": [
@@ -50,7 +50,7 @@
  "n": 29,
  "bks": 534,
  "bks_is_optimal": true,
- "time_limit": 300.0,
+ "time_limit": 3600.0,
  "threads": 1,
  "n_routes": 3
 }
