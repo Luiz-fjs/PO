@@ -1,0 +1,6 @@
+{
+  "p0": 0.02,
+  "tf_ratio": 0.001,
+  "n_cycles": 1,
+  "reheat_factor": 0.1
+}
