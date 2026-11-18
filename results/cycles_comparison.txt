@@ -1,0 +1,20 @@
+instance      1c dev%  5c dev% 5c<1c 5c>1c  1c best  5c best      p
+E-n13-k4         0.00     0.00     0     0      247      247      -
+E-n22-k4         0.00     0.00     0     0      375      375      -
+E-n23-k3         0.00     0.00     0     0      569      569      -
+E-n30-k3         0.00     0.00     0     0      534      534      -
+A-n32-k5         0.00     0.00     0     0      784      784      -
+A-n45-k6         0.65     1.08     3     4      944      944  0.173
+A-n60-k9         0.30     0.24     5     4     1355     1354  0.514
+A-n80-k10        0.41     0.51     4     6     1766     1764  0.557
+X-n101-k25       0.30     0.29     5     5    27599    27595  1.000
+X-n153-k22       1.77     1.61     6     3    21538    21458  0.139
+X-n200-k36       0.86     1.00     4     6    58910    58981  0.232
+X-n303-k21       1.80     1.85     5     5    22079    22083  0.846
+X-n502-k39       1.24     1.20     6     4    70022    69973  0.160
+X-n1001-k43      3.76     3.86     4     6    74407    74808  0.492
+Leuven1          3.42     3.34     4     6   199057   198946  0.846
+
+mean deviation over instances: 1 cycle 0.967%  5 cycles 0.998%
+Wilcoxon, 15 instance means: WilcoxonResult(statistic=np.float64(53.5), pvalue=np.float64(0.7108812022478506))
+Wilcoxon, seed pairs (95 non-tied of 150): WilcoxonResult(statistic=np.float64(2206.5), pvalue=np.float64(0.7849888590035109))
